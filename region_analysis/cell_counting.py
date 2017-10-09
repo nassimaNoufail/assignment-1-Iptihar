@@ -1,3 +1,6 @@
+import cv2
+import numpy as np
+
 class cell_counting:
 
     def blob_coloring(self, image):
@@ -30,14 +33,24 @@ class cell_counting:
         takes as input
         region: a list of pixels in a region
         returns: area"""
+        x = 0.0
+        y = 0.0
+        n = 0.1
+        for pixel in region:
+            n = n + 1
+            x = x + pixel[0]
+            y = y + pixel[1]
 
-
+        x = x / n
+        y = y / n
+        k = 1
+        print("Region: " + str(k) + ", Centroid: (" + str(x) + "," + str(y) + "), Area: " + str(n))
 
         # Please print your region statistics to stdout
         # <region number>: <location or center>, <area>
         # print(stats)
 
-        return 0
+        return n
 
     def mark_regions_image(self, image, stats):
         """Creates a new image with computed stats
@@ -45,6 +58,12 @@ class cell_counting:
         image: a list of pixels in a region
         stats: stats regarding location and area
         returns: image marked with center and area"""
-
-        return image
+        detector = cv2.SimpleBlobDetector_create()
+        keypoints = detector.detect(image)
+        output = cv2.drawKeypoints(image, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+        cv2.namedWindow("marks", cv2.WINDOW_AUTOSIZE)
+        cv2.imshow("marks", output)
+        cv2.waitKey(0)
+        cv2.destroyWindow("marks")
+        return output
 
