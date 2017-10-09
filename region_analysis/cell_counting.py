@@ -7,6 +7,21 @@ class cell_counting:
         return: a list of regions"""
 
         regions = dict()
+        k = 0
+        (row, col) = image.shape
+        for i in range(row):
+            for j in range(col):
+                if(image[i,j] == 1 and image[i,j-1] == 0 and image[i-1, j] == 0):
+                    regions[i, j] = k
+                    k += 1
+                if (image[i, j] == 1 and image[i, j-1] == 0 and image[i-1, j] == 1):
+                    regions[i, j]  = regions[i-1, j]
+                if (image[i, j] == 1 and image[i, j-1] == 1 and image[i-1, j] == 0):
+                    regions[i, j] = regions[i, j-1]
+                if (image[i, j] == 1 and image[i, j-1] == 1 and image[i-1, j] == 1):
+                    regions[i, j] = regions[i-1, j]
+                    if (regions[i, j-1] != regions[i-1, j] ):
+                        regions[i, j-1] = regions[i-1, j]
 
         return regions
 
