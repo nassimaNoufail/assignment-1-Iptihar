@@ -35,7 +35,7 @@ class cell_counting:
         returns: area"""
         x = 0.0
         y = 0.0
-        n = 0.1
+        n = 1
         for pixel in region:
             n = n + 1
             x = x + pixel[0]
